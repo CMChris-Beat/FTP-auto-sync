@@ -42,6 +42,16 @@ class Process:
         finally:
             sf.quit()
 
+    def backup_deletion(self, days: int = 7, BACKUP_DIR: str = None) -> None:
+        """
+        删除再备份时间太久的文件
+        :param days:
+        :param BACKUP_DIR:
+        :return:
+        """
+        # TODO: 定期删除备份文件夹
+        pass
+
 
 def timing(ti: str = "00:00", func=None) -> None:
     """
