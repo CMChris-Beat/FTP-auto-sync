@@ -32,6 +32,7 @@ class Process:
             BACKUP_DIR=self.BACKUP_DIR,
         )
         try:
+            print("同步开始", time.strftime("%H:%M:%S", time.localtime()))
             sf.ftp_walk('./')
             sf.local_walk('./')
             datas = sf.compare_datas(sf.ftp_data, sf.local_data)
@@ -41,26 +42,31 @@ class Process:
             sf.modify_file(datas['modify'])
         finally:
             sf.quit()
+            print("\n同步结束", time.strftime("%H:%M:%S", time.localtime()))
+
+    def backup_deletion(self):
+        # TODO: 定期删除备份文件夹
+        pass
 
 
-def timing(ti: str = "00:00", func=None) -> None:
+def timing(ti: str = "00:00", Interval_time: int = 60, func=None, heart: bool = True) -> None:
     """
     定时功能
     :param ti: 每天定时执行的时间 str[default: "00:00"]
+    :param Interval_time: 轮询间隔时间，单位秒[s] int[default: 60]
     :param func: 需要定时执行的函数
+    :param heart: 是否需要心跳显示 bool[default: True]
     :return: None
     """
 
     def heartbeat() -> None:
         print("Heartbeat ", time.strftime("%Y-%m-%d %H:%M", time.localtime()))
 
+    if func is None:  # 没有传入函数时
+        func = lambda: print("卖个萌awa")
+
     while True:
         if time.strftime("%H:%M", time.localtime()) == ti:
-            if func is None:  # 没有传入函数时
-                print("卖个萌awa")
-            else:
-                print("同步开始", time.strftime("%H:%M:%S", time.localtime()))
-                func.sync()
-                print("\n同步结束", time.strftime("%H:%M:%S", time.localtime()))
-        heartbeat()
-        time.sleep(60)
+            func()
+        if heart: heartbeat()
+        time.sleep(Interval_time)
