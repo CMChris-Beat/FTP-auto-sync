@@ -1,14 +1,19 @@
-from FTPTools import core
+import os
 import time
+from datetime import datetime, timedelta
+from FTPTools import core
+from pathlib import Path
 
 
 class Process:
-    def __init__(self, host: str, port: int, username: str, password: str, FTP_DIR: str = None, BACKUP_DIR: str = None):
+    def __init__(self, host: str, port: int, username: str, password: str, days: int = None,
+                 FTP_DIR: str = None, BACKUP_DIR: str = None):
         """
         :param host: 主机ip地址
         :param port: 主机FTP服务端口号
         :param username: 用户名
         :param password: 密码
+        :param days: 周期删除备份文件间隔天数，若不填写默认7天
         :param FTP_DIR: 本地FTP备份文件夹地址（绝对）
         :param BACKUP_DIR: 本地修改或删除文件再备份文件夹地址（绝对）
         """
@@ -16,6 +21,7 @@ class Process:
         self.port = port
         self.username = username
         self.passwd = password
+        self.days = days if days is not None else 7
         self.FTP_DIR = FTP_DIR
         self.BACKUP_DIR = BACKUP_DIR
 
@@ -42,15 +48,19 @@ class Process:
         finally:
             sf.quit()
 
-    def backup_deletion(self, days: int = 7, BACKUP_DIR: str = None) -> None:
+    def backup_deletion(self) -> None:
         """
         删除再备份时间太久的文件
-        :param days:
-        :param BACKUP_DIR:
-        :return:
+        :return: None
         """
-        # TODO: 定期删除备份文件夹
-        pass
+        # FIXED: 定期删除备份文件夹
+        bp = (os.path.dirname(os.path.dirname(Path(__file__).resolve())) + "\\BackupData").replace('\\', '/')
+        backupList = os.listdir(bp if self.BACKUP_DIR is None else self.BACKUP_DIR)
+        keep_days = [(datetime.today() - timedelta(days=x)).strftime("%Y%m%d") for x in range(self.days)]
+        for day in backupList:
+            if day not in keep_days:
+                print("正在删除中 " + bp + '/' + day)
+                os.rmdir(bp + '/' + day)
 
 
 def timing(ti: str = "00:00", func=None) -> None:
@@ -70,7 +80,7 @@ def timing(ti: str = "00:00", func=None) -> None:
                 print("卖个萌awa")
             else:
                 print("同步开始", time.strftime("%H:%M:%S", time.localtime()))
-                func.sync()
+                func()
                 print("\n同步结束", time.strftime("%H:%M:%S", time.localtime()))
         heartbeat()
         time.sleep(60)
