@@ -1,0 +1,13 @@
+{
+  "host": "192.168.19.130",
+  "port": 21,
+  "username": "ftp",
+  "password": "123456",
+  "days": 7,
+  "FTP_DIR" : "",
+  "BACKUP_DIR" : "",
+  "Time": "00:00",
+  "sync": "True",
+  "backup_deletion": "True",
+  "TestMode": "True"
+}
