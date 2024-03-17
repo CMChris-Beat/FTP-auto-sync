@@ -7,9 +7,10 @@ from datetime import datetime, timedelta
 
 
 if __name__ == '__main__':
-    config = json.load(open('./config.json'))
+    config = json.load(open('./config.json', encoding='utf-8'))
     config['FTP_DIR'] = None if config['FTP_DIR'] == '' else config['FTP_DIR']
     config['BACKUP_DIR'] = None if config['BACKUP_DIR'] == '' else config['BACKUP_DIR']
+    config['HOST_DIR'] = None if config['HOST_DIR'] == '' else config['HOST_DIR']
     pprint(config, sort_dicts=False)
     process = Process(
         host=config['host'],  # 家里虚机
@@ -19,6 +20,7 @@ if __name__ == '__main__':
         days=config['days'],  # 再备份文件留存天数
         FTP_DIR=config['FTP_DIR'],  # 本地FTP备份路径
         BACKUP_DIR=config['BACKUP_DIR'],  # 本地删除或修改文件留存路径
+        HOST_DIR=config['HOST_DIR'],  # 远程目录地址
     )
     t = (datetime.today() + timedelta(minutes=1)).strftime("%H:%M") if config['TestMode'] == "True" else config['Time']
     mode = "测试模式" if config['TestMode'] == "True" else "部署模式"
