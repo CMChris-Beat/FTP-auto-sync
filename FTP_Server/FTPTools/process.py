@@ -7,7 +7,7 @@ from pathlib import Path
 
 class Process:
     def __init__(self, host: str, port: int, username: str, password: str, days: int = None,
-                 FTP_DIR: str = None, BACKUP_DIR: str = None):
+                 FTP_DIR: str = None, BACKUP_DIR: str = None, HOST_DIR: str = None):
         """
         :param host: 主机ip地址
         :param port: 主机FTP服务端口号
@@ -16,6 +16,7 @@ class Process:
         :param days: 周期删除备份文件间隔天数，若不填写默认7天
         :param FTP_DIR: 本地FTP备份文件夹地址（绝对）
         :param BACKUP_DIR: 本地修改或删除文件再备份文件夹地址（绝对）
+        :param HOST_DIR: 远程服务器同步地址
         """
         self.host = host
         self.port = port
@@ -24,6 +25,7 @@ class Process:
         self.days = days if days is not None else 7
         self.FTP_DIR = FTP_DIR
         self.BACKUP_DIR = BACKUP_DIR
+        self.HOST_DIR = HOST_DIR if HOST_DIR is not None else './'
 
     def sync(self) -> None:
         """
@@ -39,7 +41,7 @@ class Process:
         )
         try:
             print("同步开始", time.strftime("%H:%M:%S", time.localtime()))
-            sf.ftp_walk('./')
+            sf.ftp_walk(self.HOST_DIR)
             sf.local_walk('./')
             datas = sf.compare_datas(sf.ftp_data, sf.local_data)
             sf.download_file(datas['download'])

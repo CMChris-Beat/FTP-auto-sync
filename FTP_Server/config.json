@@ -6,6 +6,7 @@
   "days": 7,
   "FTP_DIR" : "",
   "BACKUP_DIR" : "",
+  "HOST_DIR": "./",
   "Time": "00:00",
   "sync": "True",
   "backup_deletion": "True",
