@@ -89,6 +89,7 @@ class ScanFiles:
         :param delete_data: 对比文件树后传入的需要删除的文件列表 pd.DataFrame(columns=['filename', 'size', 'is_dir'])
         :param modify_data: 对比文件树后传入的需要修改的文件列表 pd.DataFrame(columns=['filename', 'size', 'is_dir'])
         """
+        # FIXME: 没有需要再备份的文件也会建立文件夹树
         os.chdir(self.BACKUP_DIR)
         os.makedirs(self.__DATE_TODAY, exist_ok=True)  # 新建当天备份文件夹
         for file in delete_data.loc[delete_data['is_dir'].apply(lambda x: False if x == 'True' else True).values, 'filename']:
