@@ -64,6 +64,7 @@ class Process:
                 print("正在删除中 " + bp + '/' + day)
                 os.rmdir(bp + '/' + day)
 
+
 def timing(ti: str = "00:00", Interval_time: int = 60, func=None, heart: bool = True) -> None:
     """
     定时功能
