@@ -24,6 +24,7 @@ if __name__ == '__main__':
     )
     config['username'] = "*" * len(config['username'])
     config['password'] = "*" * len(config['password'])
+    print("自动同步定时开始，如若没有问题，配置信息如下：")
     pprint(config, sort_dicts=False)
     t = (datetime.today() + timedelta(minutes=1)).strftime("%H:%M") if config['TestMode'] == "True" else config['Time']
     mode = "测试模式" if config['TestMode'] == "True" else "部署模式"
