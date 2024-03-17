@@ -48,7 +48,7 @@ class Process:
             sf.modify_file(datas['modify'])
         finally:
             sf.quit()
-            print("\n同步结束", time.strftime("%H:%M:%S", time.localtime()))
+            print("同步结束", time.strftime("%H:%M:%S", time.localtime()))
 
     def backup_deletion(self) -> None:
         """
@@ -57,6 +57,7 @@ class Process:
         """
         # FIXED: 定期删除备份文件夹
         bp = (os.path.dirname(os.path.dirname(Path(__file__).resolve())) + "\\BackupData").replace('\\', '/')
+        os.makedirs(bp, exist_ok=True)
         backupList = os.listdir(bp if self.BACKUP_DIR is None else self.BACKUP_DIR)
         keep_days = [(datetime.today() - timedelta(days=x)).strftime("%Y%m%d") for x in range(self.days)]
         for day in backupList:
