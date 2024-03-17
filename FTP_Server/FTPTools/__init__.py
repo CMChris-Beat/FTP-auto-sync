@@ -1,3 +1,4 @@
+from FTPTools import core
 from FTPTools import process
 
-__version__ = '0.2'
+__version__ = '0.6'
