@@ -11,7 +11,7 @@ if __name__ == '__main__':
     config['FTP_DIR'] = None if config['FTP_DIR'] == '' else config['FTP_DIR']
     config['BACKUP_DIR'] = None if config['BACKUP_DIR'] == '' else config['BACKUP_DIR']
     config['HOST_DIR'] = None if config['HOST_DIR'] == '' else config['HOST_DIR']
-    pprint(config, sort_dicts=False)
+
     process = Process(
         host=config['host'],
         port=config['port'],
@@ -22,6 +22,9 @@ if __name__ == '__main__':
         BACKUP_DIR=config['BACKUP_DIR'],  # 本地删除或修改文件留存路径
         HOST_DIR=config['HOST_DIR'],  # 远程目录地址
     )
+    config['username'] = "*" * len(config['username'])
+    config['password'] = "*" * len(config['password'])
+    pprint(config, sort_dicts=False)
     t = (datetime.today() + timedelta(minutes=1)).strftime("%H:%M") if config['TestMode'] == "True" else config['Time']
     mode = "测试模式" if config['TestMode'] == "True" else "部署模式"
     print(f"\n目前在 {mode} 下, 定时同步时间为每日 {t}")
