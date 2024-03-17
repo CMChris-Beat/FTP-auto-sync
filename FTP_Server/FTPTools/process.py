@@ -38,6 +38,7 @@ class Process:
             BACKUP_DIR=self.BACKUP_DIR,
         )
         try:
+            print("同步开始", time.strftime("%H:%M:%S", time.localtime()))
             sf.ftp_walk('./')
             sf.local_walk('./')
             datas = sf.compare_datas(sf.ftp_data, sf.local_data)
@@ -47,6 +48,7 @@ class Process:
             sf.modify_file(datas['modify'])
         finally:
             sf.quit()
+            print("\n同步结束", time.strftime("%H:%M:%S", time.localtime()))
 
     def backup_deletion(self) -> None:
         """
@@ -61,7 +63,6 @@ class Process:
             if day not in keep_days:
                 print("正在删除中 " + bp + '/' + day)
                 os.rmdir(bp + '/' + day)
-
 
 def timing(ti: str = "00:00", Interval_time: int = 60, func=None, heart: bool = True) -> None:
     """
