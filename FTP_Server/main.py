@@ -8,9 +8,9 @@ from datetime import datetime, timedelta
 
 if __name__ == '__main__':
     config = json.load(open('./config.json', encoding='utf-8'))
-    config['FTP_DIR'] = None if config['FTP_DIR'] == '' else config['FTP_DIR']
-    config['BACKUP_DIR'] = None if config['BACKUP_DIR'] == '' else config['BACKUP_DIR']
-    config['HOST_DIR'] = None if config['HOST_DIR'] == '' else config['HOST_DIR']
+    config['LOCAL_BACKUP_DIR'] = None if config['LOCAL_BACKUP_DIR'] == '' else config['LOCAL_BACKUP_DIR']
+    config['RE_BACKUP_DIR'] = None if config['RE_BACKUP_DIR'] == '' else config['RE_BACKUP_DIR']
+    config['FTP_SERVER_DIR'] = None if config['FTP_SERVER_DIR'] == '' else config['FTP_SERVER_DIR']
 
     process = Process(
         host=config['host'],
@@ -18,9 +18,9 @@ if __name__ == '__main__':
         username=config['username'],
         password=config['password'],
         days=config['days'],  # 再备份文件留存天数
-        FTP_DIR=config['FTP_DIR'],  # 本地FTP备份路径
-        BACKUP_DIR=config['BACKUP_DIR'],  # 本地删除或修改文件留存路径
-        HOST_DIR=config['HOST_DIR'],  # 远程目录地址
+        FTP_DIR=config['LOCAL_BACKUP_DIR'],  # 本地FTP备份路径
+        BACKUP_DIR=config['RE_BACKUP_DIR'],  # 本地删除或修改文件留存路径
+        HOST_DIR=config['FTP_SERVER_DIR'],  # 远程目录地址
     )
     config['username'] = "*" * len(config['username'])
     config['password'] = "*" * len(config['password'])
