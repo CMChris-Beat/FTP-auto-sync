@@ -23,8 +23,11 @@ class ScanFiles:
         self.FTP_DIR = (self.__PROJECT_DIR + "\\FTPData").replace('\\', '/') if FTP_DIR is None else FTP_DIR
         self.BACKUP_DIR = (self.__PROJECT_DIR + "\\BackupData").replace('\\', '/') if BACKUP_DIR is None else BACKUP_DIR
         self.f = FTP()
+        print("正在尝试连接FTP服务器，请稍后...")
         self.f.connect(host=host, port=port)
+        print("连接成功，正在登录...")
         self.f.login(user=username, passwd=password)
+        print("已连接服务")
         self.local_data = pd.DataFrame(columns=['filename', 'size', 'is_dir'])
         self.ftp_data = pd.DataFrame(columns=['filename', 'size', 'is_dir'])
 
