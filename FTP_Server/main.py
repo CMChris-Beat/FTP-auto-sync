@@ -13,7 +13,7 @@ if __name__ == '__main__':
     config['HOST_DIR'] = None if config['HOST_DIR'] == '' else config['HOST_DIR']
     pprint(config, sort_dicts=False)
     process = Process(
-        host=config['host'],  # 家里虚机
+        host=config['host'],
         port=config['port'],
         username=config['username'],
         password=config['password'],
