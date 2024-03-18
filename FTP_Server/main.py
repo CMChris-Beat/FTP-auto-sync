@@ -31,7 +31,7 @@ if __name__ == '__main__':
     print(f"\n目前在 {mode} 下, 定时同步时间为每日 {t}")
 
     sync = Thread(target=timing, args=(t, 60, process.sync, True)).start  # 定时同步
-    backup_deletion = Thread(target=timing, args=(t, 60, process.backup_deletion, False)).start  # 定时删除再备份
+    backup_deletion = Thread(target=timing, args=(t, 28800, process.backup_deletion, False)).start  # 定时删除再备份
 
     if config['sync'] == "True":
         sync()
