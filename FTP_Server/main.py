@@ -8,9 +8,9 @@ from datetime import datetime, timedelta
 
 if __name__ == '__main__':
     config = json.load(open('./config.json', encoding='gbk'))
-    config['LOCAL_BACKUP_DIR'] = None if config['LOCAL_BACKUP_DIR'] == '' else config['LOCAL_BACKUP_DIR']
-    config['RE_BACKUP_DIR'] = None if config['RE_BACKUP_DIR'] == '' else config['RE_BACKUP_DIR']
-    config['FTP_SERVER_DIR'] = None if config['FTP_SERVER_DIR'] == '' else config['FTP_SERVER_DIR']
+    config['LOCAL_BACKUP_DIR'] = None if config['LOCAL_BACKUP_DIR'] == '' else config['LOCAL_BACKUP_DIR'].replace('\\', '/').replace('//', '/')
+    config['RE_BACKUP_DIR'] = None if config['RE_BACKUP_DIR'] == '' else config['RE_BACKUP_DIR'].replace('\\', '/').replace('//', '/')
+    config['FTP_SERVER_DIR'] = None if config['FTP_SERVER_DIR'] == '' else config['FTP_SERVER_DIR'].replace('\\', '/').replace('//', '/')
 
     process = Process(
         host=config['host'],
