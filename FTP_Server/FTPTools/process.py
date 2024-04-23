@@ -67,6 +67,34 @@ class Process:
                 print("正在删除中 " + bp + '/' + day)
                 os.rmdir(bp + '/' + day)
 
+    def ftp_walk_test(self, callback=None) -> None:
+        """
+        ftp服务器目录遍历测试功能，针对#17设置，模块化排错
+        :param callback:
+        :return:
+        """
+        def default_callback(data: dict):
+            """默认回调函数"""
+            if data['is_dir']: return  # 开启此行不显示文件夹
+            print(f'{data["path"]} Sizes:{core.ScanFiles.convert_size(data["size"])}')
+
+        if callback is None:
+            callback = default_callback
+
+        sf = core.ScanFiles(
+            host=self.host,
+            port=self.port,
+            username=self.username,
+            password=self.passwd,
+            FTP_DIR=self.FTP_DIR,
+            BACKUP_DIR=self.BACKUP_DIR,
+        )
+        try:
+            sf.ftp_walk(self.HOST_DIR, callback=callback)
+            sf.ftp_data.to_csv("./ftp_walk_test.csv", index=False)
+        finally:
+            sf.quit()
+
 
 def timing(ti: str = "00:00", Interval_time: int = 60, func=None, heart: bool = True) -> None:
     """

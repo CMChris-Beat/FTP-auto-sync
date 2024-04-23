@@ -30,10 +30,11 @@ if __name__ == '__main__':
     mode = "测试模式" if config['TestMode'] == "True" else "部署模式"
     print(f"\n目前在 {mode} 下, 定时同步时间为每日 {t}")
 
-    sync = Thread(target=timing, args=(t, 60, process.sync, True)).start  # 定时同步
-    backup_deletion = Thread(target=timing, args=(t, 28800, process.backup_deletion, False)).start  # 定时删除再备份
-
-    if config['sync'] == "True":
-        sync()
-    if config['backup_deletion'] == "True":
-        backup_deletion()
+    process.ftp_walk_test()
+    # sync = Thread(target=timing, args=(t, 60, process.sync, True)).start  # 定时同步
+    # backup_deletion = Thread(target=timing, args=(t, 28800, process.backup_deletion, False)).start  # 定时删除再备份
+    #
+    # if config['sync'] == "True":
+    #     sync()
+    # if config['backup_deletion'] == "True":
+    #     backup_deletion()
